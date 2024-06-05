@@ -4,6 +4,6 @@ result = ''
 for i in range(1, n + 1):
     for j in range(1, n + 1):
         if (i + j) % n == 0:
-            result = str(i + j)
+            result = str(i) + str(j)
 
 print(result)
