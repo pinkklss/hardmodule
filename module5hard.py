@@ -15,6 +15,9 @@ class Video:
         self.time_now = 0
         self.adult_mode = adult_mode
 
+    def __str__(self):
+        return self.title
+
 
 class UrTube:
     def __init__(self):
@@ -22,44 +25,54 @@ class UrTube:
         self.videos = []
         self.current_user = None
 
-    def __log_in__(self, nickname, password):
+    def log_in(self, nickname, password):
         for user in self.users:
             if user.nickname == nickname and user.password == hash(password):
                 self.current_user = user
+                return
 
-    def __register__(self, nickname, password, age):
+    def register(self, nickname, password, age):
         for user in self.users:
             if user.nickname == nickname:
                 print(f'Пользователь {nickname} уже существует.')
+                return
         new_user = User(nickname, password, age)
         self.users.append(new_user)
         self.current_user = new_user
 
-    def __log_out__(self):
+    def log_out(self):
         self.current_user = None
 
-    def __add__(self, *videos):
+    def add(self, *videos):
         for video in videos:
             if video not in self.videos:
                 self.videos.append(video)
+            else:
+                pass
 
-    def __get_videos__(self):
-        video_list = [video.title for video in self.videos]
+    def str(self):
+        return f'{self.videos}'
+
+    def get_videos(self, search_text):
+        video_list = []
+        for video in self.videos:
+            if search_text in video.title:
+                video_list.append(video.title)
         return video_list
 
-    def __watch_video__(self, title):
+    def watch_video(self, title):
         if not self.current_user:
             print('Войдите в аккаунт, чтобы смотреть видео')
             return
         for video in self.videos:
-            if title == title:
+            if video.title == title:
                 if video.adult_mode and self.current_user.age < 18:
                     print('Вам нет 18 лет, пожалуйста покиньте страницу')
                     for i in range(video.duration + 1):
-                        print(i, end=' ')
+                        print(1 + i, end=' ')
                         time.sleep(1)
                     print('Конец видео.')
-                    video.time_now = 0
+                video.time_now = 0
                 return
 
 
